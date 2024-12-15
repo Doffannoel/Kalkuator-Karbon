@@ -1,0 +1,301 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculate Your Carbon Footprint</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/kalkulator.css' %}" />
+  </head>
+  <body>
+    <img src="{% static 'images/basil.png' %}" alt="Leaf Ornament" class="leaf-ornament leaf-1">
+    <img src="{% static 'images/leaf2.png' %}" alt="Leaf Ornament" class="leaf-ornament leaf-2">
+    <!-- Header Section -->
+    <div class="header position-relative text-center text-white mb-5">
+      <img
+        src="{% static 'images/pohon.webp' %}"
+        alt="Background image of trees and sky"
+        class="img-fluid"
+      />
+      <h1
+        class="position-absolute top-50 start-50 translate-middle display-4 fw-bold text-uppercase"
+      >
+        Calculate Your Carbon Footprint
+      </h1>
+    </div>
+
+    <!-- Content Section -->
+    <div class="container">
+      <div class="card shadow-lg p-5">
+        <p class="lead text-center text-muted">
+          Use our simple calculator below to work out your basic Carbon
+          Footprint.
+        </p>
+        <p class="text-center">
+          Once you have calculated your carbon footprint, take a look at our
+          list of some of the easy (and FREE) ways you can
+          <a href="#" class="text-success fw-bold"
+            >REDUCE YOUR CARBON FOOTPRINT HERE</a
+          >.
+        </p>
+        <form method="POST" class="mt-4">
+          {% csrf_token %}
+
+          <!-- Electricity Section -->
+          <div class="row align-items-center mb-5">
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Electricity Usage:</label>
+              <div class="mb-3">
+                <label for="electricity-type" class="form-label">Jenis:</label>
+                <select id="electricity-type" class="form-select">
+                  <option value="Lampu LED">Lampu LED</option>
+                  <option value="AC 1 PK">AC 1 PK</option>
+                  <option value="Kulkas">Kulkas</option>
+                </select>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="me-3">
+                  <label for="electricity-power" class="form-label">Daya (W):</label>
+                  <input
+                    type="number"
+                    id="electricity-power"
+                    class="form-control"
+                    placeholder="Masukkan daya"
+                  />
+                </div>
+                <div>
+                  <label for="electricity-time" class="form-label">Waktu (Jam):</label>
+                  <input
+                    type="number"
+                    id="electricity-time"
+                    class="form-control"
+                    placeholder="Masukkan waktu"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-md-6 d-flex justify-content-center align-items-center"
+            >
+              <label class="me-3 fw-bold text-center">Carbon Emissions:</label>
+              <div class="d-flex align-items-center">
+                <input
+                  type="text"
+                  id="electricity-emission"
+                  value="0"
+                  readonly
+                  class="form-control text-end fw-bold bg-light me-2 w-50"
+                />
+                <span class="fw-bold text-muted" style="line-height: 1"
+                  >KG</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Waste Section -->
+          <div class="row align-items-center mb-5">
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Waste Contribution:</label>
+              <div class="mb-3">
+                <label for="waste-type" class="form-label">Jenis Sampah:</label>
+                <select id="waste-type" class="form-select mb-2">
+                  <option value="Plastik">Plastik</option>
+                  <option value="Logam">Logam</option>
+                  <option value="Kaca">Kaca</option>
+                  <option value="Kertas">Kertas</option>
+                </select>
+              </div>
+              <div>
+                <label for="waste-total" class="form-label">Total (Kg):</label>
+                <input
+                  type="number"
+                  id="waste-total"
+                  class="form-control"
+                  placeholder="Masukkan berat"
+                />
+              </div>
+            </div>
+            <div
+              class="col-md-6 d-flex justify-content-center align-items-center"
+            >
+              <label class="me-3 fw-bold text-center">Carbon Emissions:</label>
+              <div class="d-flex align-items-center">
+                <input
+                  type="text"
+                  id="waste-emission"
+                  value="0"
+                  readonly
+                  class="form-control text-end fw-bold bg-light me-2 w-50"
+                />
+                <span class="fw-bold text-muted" style="line-height: 1"
+                  >KG</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Fuel Section -->
+          <div class="row align-items-center mb-5">
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Fuel Consumption:</label>
+              <div class="mb-3">
+                <label for="fuel-type" class="form-label"
+                  >Jenis Bahan Bakar:</label
+                >
+                <select id="fuel-type" class="form-select mb-2">
+                  <option value="Bensin">Bensin</option>
+                  <option value="Solar">Solar</option>
+                  <option value="LPG">LPG</option>
+                  <option value="Pertalite">Pertalite</option>
+                  <option value="Pertamax">Pertamax</option>
+                  <option value="Biodiesel">Biodiesel</option>
+                  <option value="Ethanol">Ethanol</option>
+                </select>
+              </div>
+              <div>
+                <label for="fuel-total" class="form-label"
+                  >Total (Liter):</label
+                >
+                <input
+                  type="number"
+                  id="fuel-total"
+                  class="form-control"
+                  placeholder="Masukkan jumlah liter"
+                />
+              </div>
+            </div>
+            <div
+              class="col-md-6 d-flex justify-content-center align-items-center"
+            >
+              <label class="me-3 fw-bold text-center">Carbon Emissions:</label>
+              <div class="d-flex align-items-center">
+                <input
+                  type="text"
+                  id="fuel-emission"
+                  value="0"
+                  readonly
+                  class="form-control text-end fw-bold bg-light me-2 w-50"
+                />
+                <span class="fw-bold text-muted" style="line-height: 1"
+                  >KG</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Total Emissions -->
+          <div class="text-center my-4">
+            <h4 class="fw-bold">
+              Total Carbon Emissions:
+              <span id="total-emission" class="text-success">0</span> kgCO2
+            </h4>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center">
+            <button
+              type="button"
+              id="calculate-total"
+              class="btn btn-success btn-lg px-5"
+            >
+              <i class="fas fa-calculator me-2"></i>Calculate
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-muted py-3 mt-5">
+      &copy; 2024 Carbon Tracker | Designed by Doffannoel Sihotang
+      <i class="fas fa-heart text-danger"></i>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const electricityFactor = 0.85; // kg CO2 per kWh
+      const wasteFactors = {
+        Plastik: 2.5,
+        Logam: 1.2,
+        Kaca: 0.9,
+        Kertas: 0.5,
+      };
+      const fuelFactors = {
+        Bensin: 2.3,
+        Solar: 2.6,
+        LPG: 1.5,
+        Pertalite: 2.1,
+        Pertamax: 2.0,
+        Biodiesel: 1.8,
+        Ethanol: 1.5,
+      };
+
+      document
+        .querySelector("#electricity-power")
+        .addEventListener("input", calculateElectricity);
+      document
+        .querySelector("#electricity-time")
+        .addEventListener("input", calculateElectricity);
+
+      function calculateElectricity() {
+        const power =
+          parseFloat(document.querySelector("#electricity-power").value) || 0;
+        const time =
+          parseFloat(document.querySelector("#electricity-time").value) || 0;
+        const emission = ((power / 1000) * time * electricityFactor).toFixed(4);
+        document.querySelector("#electricity-emission").value = emission;
+      }
+
+      document
+        .querySelector("#waste-total")
+        .addEventListener("input", calculateWaste);
+
+      function calculateWaste() {
+        const type = document.querySelector("#waste-type").value;
+        const total =
+          parseFloat(document.querySelector("#waste-total").value) || 0;
+        const emission = (wasteFactors[type] * total).toFixed(4);
+        document.querySelector("#waste-emission").value = emission;
+      }
+
+      document
+        .querySelector("#fuel-total")
+        .addEventListener("input", calculateFuel);
+
+      function calculateFuel() {
+        const type = document.querySelector("#fuel-type").value;
+        const total =
+          parseFloat(document.querySelector("#fuel-total").value) || 0;
+        const emission = (fuelFactors[type] * total).toFixed(4);
+        document.querySelector("#fuel-emission").value = emission;
+      }
+
+      document
+        .querySelector("#calculate-total")
+        .addEventListener("click", function () {
+          const electricity =
+            parseFloat(document.querySelector("#electricity-emission").value) ||
+            0;
+          const waste =
+            parseFloat(document.querySelector("#waste-emission").value) || 0;
+          const fuel =
+            parseFloat(document.querySelector("#fuel-emission").value) || 0;
+          const total = (electricity + waste + fuel).toFixed(4);
+          document.querySelector("#total-emission").textContent = total;
+        });
+    </script>
+  </body>
+</html>
